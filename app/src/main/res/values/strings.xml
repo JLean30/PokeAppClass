@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">PokeApp</string>
+    <string name="pokemon_id">pokemon_id</string>
+</resources>
