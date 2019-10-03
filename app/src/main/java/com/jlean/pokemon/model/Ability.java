@@ -1,15 +1,16 @@
-package com.example.pokeapp.model;
+package com.jlean.pokemon.model;
 
 public class Ability {
+
     private String name;
     private String url;
 
-    public Ability(String name, String url) {
-        this.name = name;
-        this.url = url;
-    }
-
-    public Ability() {
+    @Override
+    public String toString() {
+        return "Ability{" +
+                "name='" + name + '\'' +
+                ", url='" + url + '\'' +
+                '}';
     }
 
     public String getName() {
@@ -28,11 +29,11 @@ public class Ability {
         this.url = url;
     }
 
-    @Override
-    public String toString() {
-        return "Ability{" +
-                "name='" + name + '\'' +
-                ", url='" + url + '\'' +
-                '}';
+    public Ability() {
+    }
+
+    public Ability(String name, String url) {
+        this.name = name;
+        this.url = url;
     }
 }

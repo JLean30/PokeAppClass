@@ -1,4 +1,4 @@
-package com.example.pokeapp;
+package com.jlean.pokemon;
 
 import android.content.Context;
 
@@ -22,6 +22,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        assertEquals("com.example.pokeapp", appContext.getPackageName());
+        assertEquals("com.jlean.pokemon", appContext.getPackageName());
     }
 }

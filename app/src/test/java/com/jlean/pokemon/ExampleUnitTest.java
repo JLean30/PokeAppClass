@@ -1,4 +1,4 @@
-package com.example.pokeapp;
+package com.jlean.pokemon;
 
 import org.junit.Test;
 
