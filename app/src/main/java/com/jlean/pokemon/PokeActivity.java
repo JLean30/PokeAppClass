@@ -7,15 +7,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Layout;
 import android.util.Log;
+import android.view.ViewGroup;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.jlean.pokemon.model.Abilities;
 import com.jlean.pokemon.model.SinglePokemonResponse;
+import com.jlean.pokemon.model.Sprites;
 
 import java.util.ArrayList;
 
@@ -34,7 +37,9 @@ public class PokeActivity extends AppCompatActivity {
     private ImageView poke_img;
     private TextView namePoke;
     private LinearLayout contenedorAbilities;
-    private TextView valueTV;
+    private  LinearLayout contenedorSprites;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,12 +48,8 @@ public class PokeActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         poke_img = findViewById(R.id.poke_img);
-        contenedorAbilities = (LinearLayout) findViewById(R.id.abilities_content);
-        valueTV = new TextView(this);
-
-
-
-
+        contenedorAbilities = findViewById(R.id.abilities_content);
+        contenedorSprites = findViewById(R.id.sprites_container);
         Intent intent = getIntent();
 
         retrofit = new Retrofit.Builder()
@@ -85,10 +86,37 @@ public class PokeActivity extends AppCompatActivity {
                     SinglePokemonResponse singlePokemonResponse = response.body();
 
                     for(int i=0; i<singlePokemonResponse.getAbilities().size();i++){
-                        valueTV.setText(singlePokemonResponse.getAbilities().get(i).getAbility().getName());
-                        valueTV.setLayoutParams(contenedorAbilities.getLayoutParams());
-                        contenedorAbilities.addView(valueTV);
+                        String abilidad = singlePokemonResponse.getAbilities().get(i).getAbility().getName();
+                        TextView valueTV = new TextView(getApplicationContext());
+                        valueTV.setText(abilidad);
+                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                        valueTV.setLayoutParams(layoutParams);
+                        contenedorAbilities.addView(valueTV,layoutParams);
                         Log.i("infoPoke","abilities "+singlePokemonResponse.getAbilities().get(i).getAbility().getName());
+                    }
+
+                    Sprites sprites = singlePokemonResponse.getSprites();
+
+                    if(sprites.getBack_shiny()!= null){
+                        newImageView(sprites.getBack_shiny());
+                    }
+                    if(sprites.getBack_default()!= null){
+                        newImageView(sprites.getBack_default());
+                    }
+                    if(sprites.getBack_female()!= null){
+                        newImageView(sprites.getBack_female());
+                    }
+                    if(sprites.getBack_shiny_female()!= null){
+                        newImageView(sprites.getBack_shiny_female());
+                    }
+                    if(sprites.getFront_default()!= null){
+                        newImageView(sprites.getFront_default());
+                    }
+                    if(sprites.getFront_shiny()!= null){
+                        newImageView(sprites.getFront_shiny());
+                    }
+                    if(sprites.getBack_shiny_female()!= null){
+                        newImageView(sprites.getFront_shiny_female());
                     }
 
                     Log.i("infoPoke","nombre "+singlePokemonResponse.getName());
@@ -106,5 +134,20 @@ public class PokeActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+
+
+    public void newImageView(String img){
+        ImageView imgView = new ImageView(this);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(300, 300);
+        imgView.setLayoutParams(lp);
+        Glide.with(getApplicationContext())
+                .load(img)
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(imgView);
+        contenedorSprites.addView(imgView);
+
     }
 }
